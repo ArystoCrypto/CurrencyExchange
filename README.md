@@ -1,33 +1,31 @@
-WLOX - Open Source Cryptocurrency Exchange  
+DecidableCoins CurrencyExchange - Open Source Cryptocurrency Exchange  
 =========
-WLOX is an open source cryptocurrency exchange that supports multiple fiat currencies.
+DecidableCoins CurrencyExchange is an open source cryptocurrency exchange that supports multiple fiat currencies.
 
 At this point, the exchange only supports one cryptocurrency at a time. We plan to adapt the project to a multiple-crypto-currency environment soon.
 
-WLOX is configured to use Crypto Capital Corporation as the default banking services provider. For more information about them, please visit http://www.cryptocapital.co.
+DecidableCoins CurrencyExchangeis configured to use Crypto Capital Corporation as the default banking services provider. For more information about them, please visit http://www.cryptocapital.co.
 
 The purpose of this document is to walk you throught the process of a typical setup of the app using a bitcoind server.
 
-**IF YOU INSTALLED WLOX PRIOR TO 14/01/2015, PLEASE READ THE FILE UPDATE_GUIDE_v1.04 BEFORE CONTINUING**
-
 Getting Started
 --------------
-WLOX runs on the traditional PHP/MySQL/Apache setup.
+DecidableCoins CurrencyExchange runs on the traditional PHP/MySQL/Apache setup.
 
-**For a development environment**, you can simply clone the whole set of WLOX repositories by doing `git clone --recursive https://github.com/wlox/wlox.git`.
+**For a development environment**, you can simply clone the whole set of WLOX repositories by doing `git clone --recursive https://github.com/DecidableCoins/CurrencyExchange.git`.
 
-**For a production environment**, it is strongly recommended to distribute the different repositories across multiple servers. You can clone each sub-module independently by doing `https://github.com/wlox/wlox-[submodule].git`.
+**For a production environment**, it is strongly recommended to distribute the different repositories across multiple servers. You can clone each sub-module independently by doing `https://github.com/DecidableCoins/CurrencyExchange-[submodule].git`.
 
 
 Project Structure
 --------------
-WLOX is structured as one main *git* repository with multiple sub-modules. As mentioned above, you can clone the whole project or each repository on it's own.
+DecidableCoins CurrencyExchange is structured as one main *git* repository with multiple sub-modules. As mentioned above, you can clone the whole project or each repository on it's own.
 
-- **wlox** > The master repo. DB updates and documentation reside here.
-- |-- **wlox-frontend** > The App's frontend.
-- |-- **wlox-auth** > Handles user authentication.
-- |-- **wlox-api** > Handles all requests for data made by the frontend.
-- |-- **wlox-cron** > Contains all cron jobs.
+- **CurrencyExchang** > The master repo. DB updates and documentation reside here.
+- |-- *CurrencyExchang-frontend** > The App's frontend.
+- |-- **CurrencyExchang-auth** > Handles user authentication.
+- |-- **CurrencyExchang-api** > Handles all requests for data made by the frontend.
+- |-- **CurrencyExchang-cron** > Contains all cron jobs.
 - |-- **backstage2** > The CMS (back end) program.
 
 Requirements
@@ -41,13 +39,13 @@ Initializing the Database
 -------------------
 To set up the database, the first step is to create an empty database on your MySQL database server. Then, create a user with the following priviledges: SELECT, INSERT, UPDATE and DELETE.
 
-You will find a file called *wlox.sql.gz* in the main project directory. Import this file into the database that you have created.
+You will find a file called *currencyexchange.sql.gz* in the main project directory. Import this file into the database that you have created.
 
 Setting up the Back-End (backstage2)
 -------------------
-As mentioned above, WLOX comes with its own administrative program, *backstage2*, which is really a [seperate project](https://github.com/mbassan/backstage2) developed over a few years.
+As mentioned above, currencyexchange comes with its own administrative program, *backstage2*, which is really a [seperate project](https://github.com/mbassan/backstage2) developed over a few years.
 
-You can clone **backstage2** doing `git clone https://github.com/wlox/backstage2.git`. After cloning, rename the file *cfg.php.example* to *cfg.php* and define the following variables: 
+You can clone **backstage2** doing `git clone https://github.com/currencyexchange/backstage2.git`. After cloning, rename the file *cfg.php.example* to *cfg.php* and define the following variables: 
 
 - **$CFG->dbhost:** The address of the database server.
 - **$CFG->dbname:** The database name.
@@ -57,7 +55,7 @@ You can clone **backstage2** doing `git clone https://github.com/wlox/backstage2
 You can now log in using user/password admin/admin. You should obviously remove this user in a production setup.
 
 
-Configuring WLOX to Run
+Configuring CurrencyExchange to Run
 -------------------------
 Once you have managed to install and access **backstage2**, log in using admin/admin and go to 'Status'=>'App Configuration'. This the is the place where you will specify all of the application's settings from now on:
 
@@ -105,28 +103,28 @@ Once you have managed to install and access **backstage2**, log in using admin/a
 
 **Frontend Config**
 - **Base URL:** For example *http://mysite.com/*.
-- **Dir Root:** The web directory of the repo. For example */var/www/wlox/frontend/htdocs/*.
+- **Dir Root:** The web directory of the repo. For example */var/www/currencyexchange/frontend/htdocs/*.
 
 **API Config**
 - **DB Debug On Fail:** Will halt script and output DB errors to PHP error stream.
-- **Dir Root:** The web directory of the repo. For example */var/www/wlox/api/htdocs/*.
+- **Dir Root:** The web directory of the repo. For example */var/www/currencyexchange/api/htdocs/*.
 
 **Auth Config**
 - **DB Debug On Fail:** Will halt script and output DB errors to PHP error stream.
 
 **Cron Config**
 - **DB Debug On Fail:** Will halt script and output DB errors to PHP error stream.
-- **Dir Root:** The web directory of the repo. For example */var/www/wlox/cron/*.
+- **Dir Root:** The web directory of the repo. For example */var/www/currencyexchange/cron/*.
 
 **Backstage Config**
 - **DB Debug On Fail:** Will halt script and output DB errors to PHP error stream.
-- **Dir Root:** The web directory of the repo. For example */var/www/wlox/backstage2/*.
+- **Dir Root:** The web directory of the repo. For example */var/www/currencyexchange/backstage2/*.
 
 Setting up the API Server
 ---------------------
 The API server provides a layer of security and abstraction between the frontend server and the database in order to prevent direct communication between these two components. 
 
-Install by doing `git clone https://github.com/wlox/wlox-api.git` in the intended space.
+Install by doing `git clone https://github.com/DecidableCoins/CurrencyExchange-api.git` in the intended space.
 
 When this is ready, rename cfg/cfg.php.example to cfg/cfg.php and set:
 
@@ -140,7 +138,7 @@ Setting up the Auth Server
 
 The purpose of the Auth server is to allow users to initiate sessions and obtain a session key so that they can access protected methods on the API. 
 
-Install by doing `git clone https://github.com/wlox/wlox-auth.git` in the intended space.
+Install by doing `git clone https://github.com/DecidableCoins/CurrencyExchange-auth.git` in the intended space.
 
 When this is ready, rename cfg.php.example to cfg.php and set:
 
@@ -155,9 +153,9 @@ Setting up Cron Jobs
 
 **IMPORTANT: Should run on the same server as bitcoind daemon!**
 
-The Cron Jobs necessary for WLOX to run are provided in this repository. 
+The Cron Jobs necessary for CurrencyExchange to run are provided in this repository. 
 
-Install by doing `git clone https://github.com/wlox/wlox-auth.git` in the intended space.
+Install by doing `git clone https://github.com/DecidableCoins/CurrencyExchange-auth.git` in the intended space.
 
 When this is ready, rename cfg.php.example to cfg.php and set:
 
@@ -199,7 +197,7 @@ Setting up the Frontend
 -------------------
 The frontend server is intended to be the only part of the app which should be accesible to the user. 
 
-Install by doing `git clone https://github.com/wlox/wlox-frontend.git` in the intended space.
+Install by doing `git clone https://github.com/DecidableCoins/CurrencyExchange-frontend.git` in the intended space.
 
 The /htdocs folder provided in the package is intended to be the server's web directory.
 
@@ -211,13 +209,13 @@ When this is ready, rename cfg.php.example to cfg.php and set:
 
 Warm Wallet
 -------------------
-The "Warm Wallet" is simply a Bitcoin wallet running in a secure location. The cron job `receive_bitcoin.php` (provided in wlox-cron) will channel all Bitcoin above the *Reserve Ratio* specified in the backstage2 App Configuration to this address. You can do whatever you like with it once it arrives there (for example, you can transfer it to cold storage using a Piper wallet).
+The "Warm Wallet" is simply a Bitcoin wallet running in a secure location. The cron job `receive_bitcoin.php` (provided in CurrencyExchange-cron) will channel all Bitcoin above the *Reserve Ratio* specified in the backstage2 App Configuration to this address. You can do whatever you like with it once it arrives there (for example, you can transfer it to cold storage using a Piper wallet).
 
 In order to load Bitcoin back into the Hot Wallet (when the amount needed for outgoing transfers exceeds the amount in the Hot Wallet), simply send Bitcoin from your Warm Wallet back to the dedicated Hot Wallet address. This can be found in the Back End under Registered Visitors -> Bitcoin Addresses (it will be the one with both "System" and "Hot Wallet" checked).
 
 2-Factor Authentication (2FA)
 -----------------------------
-WLOX supports both Google Authenticator and Authy (www.authy.com) by default.
+CurrencyExchange supports both Google Authenticator and Authy (www.authy.com) by default.
 
 
 Getting Around the Back-End
