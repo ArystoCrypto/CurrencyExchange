@@ -12,7 +12,7 @@ Getting Started
 --------------
 DecidableCoins CurrencyExchange runs on the traditional PHP/MySQL/Apache setup.
 
-**For a development environment**, you can simply clone the whole set of WLOX repositories by doing `git clone --recursive https://github.com/DecidableCoins/CurrencyExchange.git`.
+**For a development environment**, you can simply clone the whole set of CurrencyExchange repositories by doing `git clone --recursive https://github.com/DecidableCoins/CurrencyExchange.git`.
 
 **For a production environment**, it is strongly recommended to distribute the different repositories across multiple servers. You can clone each sub-module independently by doing `https://github.com/DecidableCoins/CurrencyExchange-[submodule].git`.
 
@@ -32,7 +32,7 @@ Requirements
 ---------------
 - **PHP/MySQL/Apache** (see section called *PHP Configuration* below).
 - **bitcoind** server, running as daemon (see section called *bitcoind configuration* below).
-- **Warm Wallet**: A secure Bitcoin wallet that is not connected to WLOX. WLOX will send a percentage of Bitcoin deposits to this address automatically. This is normally a half-way point between the Hot Wallet (bitcoind) and *cold storage*. See the **Warm Wallet** section below.
+- **Warm Wallet**: A secure Bitcoin wallet that is not connected to CurrencyExchange. CurrencyExchange will send a percentage of Bitcoin deposits to this address automatically. This is normally a half-way point between the Hot Wallet (bitcoind) and *cold storage*. See the **Warm Wallet** section below.
 - **Cold Storage**: We recommend using some kind of *cold storage* for your Bitcoin reserves, such as a *hardware wallet* and an actual safe deposit box in a bank or other safe place.
 
 Initializing the Database
@@ -60,9 +60,9 @@ Configuring CurrencyExchange to Run
 Once you have managed to install and access **backstage2**, log in using admin/admin and go to 'Status'=>'App Configuration'. This the is the place where you will specify all of the application's settings from now on:
 
 **Global App Settings**
-- **Application Timezone:** The default timezone of WLOX (the frontend will be seen in each user's timezone).
+- **Application Timezone:** The default timezone of CurrencyExchange (the frontend will be seen in each user's timezone).
 - **BTC Miner's Fee:** The fee for sending Bitcoin, collected by the network. We recommend 0.001.
-- **Currency Conversion Fee (%):** A number between 0 and 100 (decimals allowed). The fee collected by WLOX when a trade happens across currencies.
+- **Currency Conversion Fee (%):** A number between 0 and 100 (decimals allowed). The fee collected by CurrencyExchange when a trade happens across currencies.
 - **Exchange's Name:** For example 'MyExchange'. Will be used in place of [exchange_name] in site content.
 - **Fiat Withdrawal Fee:** Not implemented. Leave at 0 for now, unless you want to develop this feature!
 - **Min. Order Amnt. (USD):** The minimum order that can be placed. 
@@ -92,7 +92,7 @@ Once you have managed to install and access **backstage2**, log in using admin/a
 - **Host:** Use the server's IP if you are using multiple servers.
 - **Port:** *8332* by default.
 - **Protocol:** *http* by default.
-- **Reserve Min. BTC (for Send to Warm Wal.):** *1* by default. The minimum hot wallet balance at which WLOX will send to the warm wallet.
+- **Reserve Min. BTC (for Send to Warm Wal.):** *1* by default. The minimum hot wallet balance at which currencyexchange will send to the warm wallet.
 - **Reserve Ratio (% in Hot Wallet):** A number from 0 to 100. The percentage of BTC reserves that will be kept in the hot wallet.
 - **Warm Wallet BTC Addr.:** BE VERY CAREFUL TO INPUT THE RIGHT ADDRESS! Receiving address for the warm wallet.
 
@@ -185,10 +185,10 @@ rpcuser=Your user
 rpcpassword=Your password
 rpctimeout=30
 rpcport=8332
-walletnotify= path to the receive.sh file provided in wlox-cron (example path/to receive.sh %s)
+walletnotify= path to the receive.sh file provided in currencyexchange-cron (example path/to receive.sh %s)
 ```
 
-You can also add `testnet=1` if you want to test out WLOX using Bitcoin testnet (which we obviously recommend for a development environment).
+You can also add `testnet=1` if you want to test out currencyexchange using Bitcoin testnet (which we obviously recommend for a development environment).
 
 We recommend encrypting the wallet.dat file by running the following command in your terminal: ```>/path/to/bitcoind encryptwallet <passphrase>```. Make sure <passphrase> is the same as the password set in your *bitcoin.conf* file, as well as the *Bitcoin Passpharse* defined in backstage2 -> App Configuration -> Bitcoin Server Settings.
 
@@ -234,20 +234,20 @@ The back-end is structure in the following manner:
 - **Order Types**: The names of the types of orders. *Do not delete* any of these items as the system uses the specific ID of each of these items in the database.
 - **Transaction Types**: The names of the transaction types. *Do not delete*.
 
-**Requests**: On this page, you can see all requests to deposit and withdraw funds from WLOX user accounts. Requests in BTC will be processed automatically by cron/send_bitcoin.php and cron/receive_bitcoin.php. Requests involving fiat currencies must be processed manually. Requests that require your attention will be highlighted in red.
+**Requests**: On this page, you can see all requests to deposit and withdraw funds from currencyexchange user accounts. Requests in BTC will be processed automatically by cron/send_bitcoin.php and cron/receive_bitcoin.php. Requests involving fiat currencies must be processed manually. Requests that require your attention will be highlighted in red.
 - **Deposit/Withdraw**: On this page, (1) the first form is to upload an transactions export file from Crypto Capital (this will allow you to credit users for fiat currency transferred into your exchanges' escrow accounts); (2) the second form is to make withdrawals from your Crypto Capital escrow accounts (when you withdraw from one of these accounts, you need to tell the system how much was withdrawn using this form - editing the values directly might cause fiat to be lost to the system because the value might change in the time between loading it on the screen and specifying the new value).
 - **Request Status**: The status names that a request can have. *Do not delete any of these values*.
 - **Request Descriptions**: The descriptions of the different types of requests. *Do not delete*.
 
-**Registered Visitors**: These are the users that have signed up to use WLOX (throught the front end).
-- **Fee Schedule**: This is the fee schedule that will be used to determine the fee charged to users when they make a transaction. Make sure not to leave holes in the schedule - that may lead to strange behavior by WLOX. The cron job that matches users with their fee level is cron/maintenance.php.
+**Registered Visitors**: These are the users that have signed up to use currencyexchange (throught the front end).
+- **Fee Schedule**: This is the fee schedule that will be used to determine the fee charged to users when they make a transaction. Make sure not to leave holes in the schedule - that may lead to strange behavior by currencyexchange. The cron job that matches users with their fee level is cron/maintenance.php.
 
 **Language Table**: This is the language table for all short text items in the page. By default it is configured to support two languages, English and Spanish.
 
 **Emails**: In this tab, you can view/edit the text of all automated emails sent by the system.
 
-**Status**: This is the most important tab in the back-end. When you click it, you will see only one record. It will show you the BTC amounts in the system, as well as the amounts in the hot wallet and cold wallet. Watch the "Deficit" closely - this number is the amount that must be manually transferred into the hot wallet from the cold/warm wallets in order to allow all pending Bitcoin withdrawal requests to be fulfilled. The "Escrow Profits" section are the profits being generated by charging fees to WLOX's user base. When you decide to withdraw some of these profits, do not edit the values in the Status tab. Please use the "Deposit/Withdraw" page under the Requests tab instead.
-- **Fees**: This page gives a list of all fees being incurred by WLOX's internal movement of BTC - i.e. when sweeping user's Bitcoin addresses or transferring money to the warm/cold wallet.
+**Status**: This is the most important tab in the back-end. When you click it, you will see only one record. It will show you the BTC amounts in the system, as well as the amounts in the hot wallet and cold wallet. Watch the "Deficit" closely - this number is the amount that must be manually transferred into the hot wallet from the cold/warm wallets in order to allow all pending Bitcoin withdrawal requests to be fulfilled. The "Escrow Profits" section are the profits being generated by charging fees to currencyexchange's user base. When you decide to withdraw some of these profits, do not edit the values in the Status tab. Please use the "Deposit/Withdraw" page under the Requests tab instead.
+- **Fees**: This page gives a list of all fees being incurred by currencyexchange's internal movement of BTC - i.e. when sweeping user's Bitcoin addresses or transferring money to the warm/cold wallet.
 
 **Reports**: Under this tab, you will see "Daily Reports" and "Monthly Reports". You can see switch between a line graph and a table view of these values on the top right side of the respective tables.
 
